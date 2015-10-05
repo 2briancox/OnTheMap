@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -96,7 +97,7 @@
                     <connections>
                         <outlet property="PasswordTextField" destination="n6H-ga-bwV" id="527-Z7-Nci"/>
                         <outlet property="UsernameTextField" destination="WGY-aO-EK8" id="XQD-Pp-UWT"/>
-                        <segue destination="QJx-6n-rOg" kind="presentation" identifier="loginCompleteSegue" id="lLq-9Y-SBQ"/>
+                        <segue destination="QJx-6n-rOg" kind="presentation" identifier="loginCompleteSegue" modalPresentationStyle="overCurrentContext" modalTransitionStyle="coverVertical" id="lLq-9Y-SBQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -113,22 +114,27 @@
                         <viewControllerLayoutGuide type="bottom" id="kJt-If-qIl"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="szi-kc-vCT">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" rotateEnabled="NO" pitchEnabled="NO" showsBuildings="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Xr-Ye-8HQ">
-                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="4Xr-Ye-8HQ">
+                                <rect key="frame" x="0.0" y="64" width="600" height="492"/>
                             </mapView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="tZe-Jz-Rda">
+                                <rect key="frame" x="282" y="281" width="37" height="37"/>
+                                <color key="color" red="0.94312808390000002" green="0.64209841010000002" blue="0.25661180179999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="4Xr-Ye-8HQ" firstAttribute="top" secondItem="Dst-GH-a8E" secondAttribute="bottom" id="7Z7-zM-0OR"/>
+                            <constraint firstItem="kJt-If-qIl" firstAttribute="top" secondItem="4Xr-Ye-8HQ" secondAttribute="bottom" id="Gbk-mk-B3v"/>
                             <constraint firstAttribute="trailing" secondItem="4Xr-Ye-8HQ" secondAttribute="trailing" id="a9z-mG-RaF"/>
                             <constraint firstItem="4Xr-Ye-8HQ" firstAttribute="leading" secondItem="szi-kc-vCT" secondAttribute="leading" id="eJx-vy-Njv"/>
-                            <constraint firstItem="4Xr-Ye-8HQ" firstAttribute="bottom" secondItem="kJt-If-qIl" secondAttribute="top" id="jGr-UM-4V6"/>
+                            <constraint firstItem="tZe-Jz-Rda" firstAttribute="centerX" secondItem="4Xr-Ye-8HQ" secondAttribute="centerX" id="ksy-zO-bxQ"/>
+                            <constraint firstItem="tZe-Jz-Rda" firstAttribute="centerY" secondItem="szi-kc-vCT" secondAttribute="centerY" id="odP-NX-Yty"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <navigationItem key="navigationItem" title="On The Map" id="Ial-MB-aQU">
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="dJJ-G0-scx">
                             <connections>
@@ -136,9 +142,11 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="tZe-Jz-Rda" id="dFP-Sn-TzI"/>
                         <outlet property="mapView" destination="4Xr-Ye-8HQ" id="Wi0-2M-AIy"/>
-                        <segue destination="BYZ-38-t0r" kind="showDetail" identifier="logoutMapSegue" id="g5d-pP-y4u"/>
+                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="logoutMapSegue" id="g5d-pP-y4u"/>
                     </connections>
                 </viewController>
             </objects>
@@ -147,8 +155,9 @@
         <!--Tab Bar Controller View Controller-->
         <scene sceneID="WFS-dU-U53">
             <objects>
-                <tabBarController autoresizesArchivedViewToFullSize="NO" id="QJx-6n-rOg" customClass="TabBarControllerViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
-                    <extendedEdge key="edgesForExtendedLayout"/>
+                <tabBarController autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="overCurrentContext" id="QJx-6n-rOg" customClass="TabBarControllerViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="CY3-cp-Sme">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -167,21 +176,14 @@
         <scene sceneID="nKR-ZX-wYT">
             <objects>
                 <navigationController id="uCq-yw-gjY" sceneMemberID="viewController">
-                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
-                    <tabBarItem key="tabBarItem" tag="1" title="Map" image="Map_Icon" id="k9g-ff-Fba">
-                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" tag="1" title="Map" image="Map_Icon" id="k9g-ff-Fba"/>
                     <toolbarItems/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="HwZ-Yf-jFj">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
-                    <toolbar key="toolbar" tag="1" contentMode="scaleToFill" id="bhY-aE-Hni">
-                        <rect key="frame" x="0.0" y="556" width="600" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </toolbar>
                     <connections>
                         <segue destination="QQR-Sf-loO" kind="relationship" relationship="rootViewController" id="a0i-p5-h1Z"/>
                     </connections>
@@ -214,19 +216,19 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="On The Map" id="NjK-cq-Ugv"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MwB-EO-mYf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2833" y="929"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--People-->
         <scene sceneID="7Am-ee-LPK">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jjP-Ud-3Cu" sceneMemberID="viewController">
-                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
-                    <tabBarItem key="tabBarItem" tag="2" selectedImage="People_Icon" systemItem="contacts" id="IuK-jo-oGb"/>
+                <navigationController id="jjP-Ud-3Cu" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" tag="2" title="People" image="People_Icon" id="R1D-IL-vZ5"/>
                     <toolbarItems/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="8Hc-ks-uwt">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

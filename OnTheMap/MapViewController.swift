@@ -9,20 +9,15 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController, MKMapViewDelegate{
+class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     
     @IBOutlet weak var mapView: MKMapView!
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        
-        
-        
-        
         
         // The "locations" array is an array of dictionary objects that are similar to the JSON
         // data that you can download from parse.
@@ -62,75 +57,8 @@ class MapViewController: UIViewController, MKMapViewDelegate{
         
         // When the array is complete, we add the annotations to the map.
         self.mapView.addAnnotations(annotations)
-        
-        
-        
-        
-        
-        
+        activityIndicator.stopAnimating()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
-    @IBAction func logoutButtonPressed(sender: UIBarButtonItem) {
-        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
-        
-        request.HTTPMethod = "DELETE"
-        
-        var xsrfCookie: NSHTTPCookie? = nil
-        
-        let sharedCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
-        
-        for cookie in sharedCookieStorage.cookies! {
-            
-            if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
-            
-        }
-        
-        if let xsrfCookie = xsrfCookie {
-            request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
-        }
-        
-        let session = NSURLSession.sharedSession()
-        
-        let task = session.dataTaskWithRequest(request) { data, response, error in
-            
-            if error != nil {
-                self.showAlertWithText("Serever Error", message: "The server did not logout properly")
-                return
-            }
-            
-            let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
-            
-            print(NSString(data: newData, encoding: NSUTF8StringEncoding))
-            
-            self.navigationController?.popToRootViewControllerAnimated(true)
-            
-            self.removeFromParentViewController()
-            
-            self.performSegueWithIdentifier("logoutMapSegue", sender: self)
-        }
-        
-        task.resume()
-    }
-    
-    func showAlertWithText (header : String = "Warning", message : String) {
-            let alert = UIAlertController(title: header, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-            presentViewController(alert, animated: true, completion: nil)
-    }
-    
-    
-    
-    
-    
-    
-    
-    
     
     // MARK: - MKMapViewDelegate
     
@@ -146,8 +74,8 @@ class MapViewController: UIViewController, MKMapViewDelegate{
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             pinView!.canShowCallout = true
-            pinView!.pinTintColor = UIColor.redColor()
-            pinView!.rightCalloutAccessoryView = UIButton(type: .InfoLight)
+            pinView!.pinColor = .Red
+            pinView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
         }
         else {
             pinView!.annotation = annotation
@@ -167,10 +95,6 @@ class MapViewController: UIViewController, MKMapViewDelegate{
         }
     }
     
-    
-    func mapViewWillStartRenderingMap(mapView: MKMapView) {
-        self.tabBarController?.tabBar.viewWithTag(2)
-    }
     // MARK: - Sample Data
     
     // Some sample data. This is a dictionary that is more or less similar to the
@@ -225,4 +149,62 @@ class MapViewController: UIViewController, MKMapViewDelegate{
             ]
         ]
     }
+
+    
+    
+    @IBAction func logoutButtonPressed(sender: UIBarButtonItem) {
+        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
+        
+        request.HTTPMethod = "DELETE"
+        
+        var xsrfCookie: NSHTTPCookie? = nil
+        
+        let sharedCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+        
+        for cookie in sharedCookieStorage.cookies! {
+            
+            if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
+            
+        }
+        
+        if let xsrfCookie = xsrfCookie {
+            request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
+        }
+        
+        let session = NSURLSession.sharedSession()
+        
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+            
+            if error != nil {
+                self.showAlertWithText("Serever Error", message: "The server did not logout properly")
+                return
+            }
+            
+            let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
+            
+            print(NSString(data: newData, encoding: NSUTF8StringEncoding))
+            
+            self.navigationController?.popToRootViewControllerAnimated(true)
+            
+            self.performSegueWithIdentifier("logoutMapSegue", sender: self)
+        }
+        
+        task.resume()
+    }
+    
+    func showAlertWithText (header : String = "Warning", message : String) {
+            let alert = UIAlertController(title: header, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+            presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
