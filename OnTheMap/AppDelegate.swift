@@ -14,6 +14,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var key:String = ""
     var id:String = ""
+    var userFirstName: String = ""
+    var userLastName: String = ""
+    var userMediaURL: String = ""
+    var userLatitude: Double = 0.0
+    var userLongitude: Double = 0.0
+    var people: [StudentInformation] = []
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.

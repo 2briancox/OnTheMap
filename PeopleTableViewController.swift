@@ -37,6 +37,47 @@ class PeopleTableViewController: UITableViewController {
         return 0
     }
 
+    @IBAction func logoutButtonPressed(sender: UIBarButtonItem) {
+        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
+        
+        request.HTTPMethod = "DELETE"
+        
+        var xsrfCookie: NSHTTPCookie? = nil
+        
+        let sharedCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+        
+        for cookie in sharedCookieStorage.cookies! {
+            
+            if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
+            
+        }
+        
+        if let xsrfCookie = xsrfCookie {
+            request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
+        }
+        
+        let session = NSURLSession.sharedSession()
+        
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+            
+            if error != nil {
+                self.showAlertWithText("Serever Error", message: "The server did not logout properly.")
+                return
+            }
+            
+            let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
+            
+            print(NSString(data: newData, encoding: NSUTF8StringEncoding))
+            
+            self.navigationController?.popToRootViewControllerAnimated(true)
+            
+            self.performSegueWithIdentifier("logoutMapSegue", sender: self)
+        }
+        
+        task.resume()
+    }
+    
+    
     /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
@@ -91,5 +132,11 @@ class PeopleTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    
+    func showAlertWithText (header : String = "Warning", message : String) {
+            let alert = UIAlertController(title: header, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+    }
 }

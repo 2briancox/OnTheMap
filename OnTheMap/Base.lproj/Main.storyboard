@@ -117,8 +117,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="4Xr-Ye-8HQ">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="4Xr-Ye-8HQ">
                                 <rect key="frame" x="0.0" y="64" width="600" height="492"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </mapView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="tZe-Jz-Rda">
                                 <rect key="frame" x="282" y="281" width="37" height="37"/>
@@ -141,6 +142,7 @@
                                 <action selector="logoutButtonPressed:" destination="QQR-Sf-loO" id="aKP-PB-fiy"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="Location" id="Oh7-jK-bhC"/>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -215,7 +217,13 @@
                             <outlet property="delegate" destination="Kgv-cl-Erd" id="FyB-wS-FC4"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="On The Map" id="NjK-cq-Ugv"/>
+                    <navigationItem key="navigationItem" title="On The Map" id="NjK-cq-Ugv">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="7Kx-Xz-NII">
+                            <connections>
+                                <action selector="logoutButtonPressed:" destination="Kgv-cl-Erd" id="Txh-NC-G6F"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MwB-EO-mYf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -244,6 +252,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Location" width="22" height="30"/>
         <image name="Map_Icon" width="30" height="27"/>
         <image name="People_Icon" width="25" height="30"/>
     </resources>
