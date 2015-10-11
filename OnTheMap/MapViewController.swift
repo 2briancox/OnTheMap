@@ -17,6 +17,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
+    @IBOutlet weak var locationBarButtonIcon: UIBarButtonItem!
+
+    @IBAction func locationButtonPressed(sender: UIBarButtonItem) {
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,6 +30,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         appDelegate = object as! AppDelegate
         
         mapView.delegate = self
+        
+        if appDelegate.userMediaURL != "" {
+            locationBarButtonIcon.image = UIImage(named: "YourLocation")
+        }
         
         dispatch_async(dispatch_get_main_queue()) {
             let locations = self.appDelegate.people
@@ -51,12 +61,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             
             self.mapView.addAnnotations(annotations)
         }
-        
     }
 
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        
         let reuseId = "pin"
         
         var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView

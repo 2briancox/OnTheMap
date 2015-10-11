@@ -125,7 +125,6 @@ class Client : NSObject {
             }
             
         }
-        
         task.resume()
     }
     

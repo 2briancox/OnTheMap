@@ -15,6 +15,7 @@ struct StudentInformation {
     var longitude: Double = 0.0
     var mediaURL: String = ""
     var uniqueKey: String = ""
+    var mapString: String = ""
     
     init (personDict: Dictionary<String, AnyObject>) {
         firstName = personDict["firstName"] as! String
@@ -23,5 +24,6 @@ struct StudentInformation {
         uniqueKey = personDict["uniqueKey"] as! String
         latitude = personDict["latitude"] as! Double
         longitude = personDict["longitude"] as! Double
+        mapString = personDict["mapString"] as! String
     }
 }

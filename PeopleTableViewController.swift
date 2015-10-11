@@ -10,128 +10,57 @@ import UIKit
 
 class PeopleTableViewController: UITableViewController {
 
+    var appDelegate:AppDelegate = AppDelegate()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
+        let object = UIApplication.sharedApplication().delegate
+        appDelegate = object as! AppDelegate
     }
 
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
+    
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return appDelegate.people.count
     }
+    
 
     @IBAction func logoutButtonPressed(sender: UIBarButtonItem) {
-        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
-        
-        request.HTTPMethod = "DELETE"
-        
-        var xsrfCookie: NSHTTPCookie? = nil
-        
-        let sharedCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
-        
-        for cookie in sharedCookieStorage.cookies! {
-            
-            if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
-            
-        }
-        
-        if let xsrfCookie = xsrfCookie {
-            request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
-        }
-        
-        let session = NSURLSession.sharedSession()
-        
-        let task = session.dataTaskWithRequest(request) { data, response, error in
-            
-            if error != nil {
-                self.showAlertWithText("Serever Error", message: "The server did not logout properly.")
-                return
+        Client.sharedInstance().performLogout() { (errorString) in
+            if errorString != nil {
+                self.showAlertWithText("Error", message: errorString!)
+            } else {
+                self.navigationController?.popToRootViewControllerAnimated(true)
+                self.performSegueWithIdentifier("logoutMapSegue", sender: self)
             }
-            
-            let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
-            
-            print(NSString(data: newData, encoding: NSUTF8StringEncoding))
-            
-            self.navigationController?.popToRootViewControllerAnimated(true)
-            
-            self.performSegueWithIdentifier("logoutMapSegue", sender: self)
         }
-        
-        task.resume()
     }
     
     
-    /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCellWithIdentifier("studentCell", forIndexPath: indexPath) as! StudentTableCell
+        cell.nameLabel.text = appDelegate.people[indexPath.row].firstName + " " + appDelegate.people[indexPath.row].lastName
+        if appDelegate.people[indexPath.row].uniqueKey == appDelegate.key && appDelegate.people[indexPath.row].firstName == appDelegate.userFirstName && appDelegate.people[indexPath.row].lastName == appDelegate.userLastName {
+            cell.locationIcon.image = UIImage(named: "YourLocation")
+        } else {
+            cell.locationIcon.image = UIImage(named: "Location")
+        }
+        cell.locationLabel.text = appDelegate.people[indexPath.row].mapString
+        cell.linkLabel.text = appDelegate.people[indexPath.row].mediaURL
         return cell
     }
-    */
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let app = UIApplication.sharedApplication()
+        app.openURL(NSURL(string: appDelegate.people[indexPath.row].mediaURL)!)
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     
     func showAlertWithText (header : String = "Warning", message : String) {
