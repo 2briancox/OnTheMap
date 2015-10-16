@@ -1,0 +1,229 @@
+Jumbalaya<GEOMapItemStorage: 0x7f868061d8b0> {
+    placeData =     {
+        component =         (
+                        {
+                "cache_control" = UNCACHEABLE;
+                status = "STATUS_FAILED";
+                timestampFirstSeen = "466483193.078724";
+                type = "COMPONENT_TYPE_TRANSIT_INFO";
+            },
+                        {
+                "cache_control" = UNCACHEABLE;
+                status = "STATUS_FAILED";
+                timestampFirstSeen = "466483193.078724";
+                type = "COMPONENT_TYPE_TRANSIT_SCHEDULE";
+            },
+                        {
+                "cache_control" = UNCACHEABLE;
+                "start_index" = 0;
+                status = "STATUS_SUCCESS";
+                timestampFirstSeen = "466483193.078724";
+                type = "COMPONENT_TYPE_TRANSIT_ATTRIBUTION";
+                "values_available" = 0;
+            },
+                        {
+                "cache_control" = UNCACHEABLE;
+                "start_index" = 0;
+                status = "STATUS_SUCCESS";
+                timestampFirstSeen = "466483193.078724";
+                type = "COMPONENT_TYPE_TRANSIT_INCIDENT";
+                "values_available" = 0;
+            },
+                        {
+                "cache_control" = UNCACHEABLE;
+                "start_index" = 0;
+                status = "STATUS_SUCCESS";
+                timestampFirstSeen = "466483193.078724";
+                type = "COMPONENT_TYPE_HOURS";
+                "values_available" = 0;
+            },
+                        {
+                "cache_control" = UNCACHEABLE;
+                "start_index" = 0;
+                status = "STATUS_SUCCESS";
+                timestampFirstSeen = "466483193.078724";
+                type = "COMPONENT_TYPE_RATING";
+                "values_available" = 0;
+            },
+                        {
+                "cache_control" = UNCACHEABLE;
+                "start_index" = 0;
+                status = "STATUS_SUCCESS";
+                timestampFirstSeen = "466483193.078724";
+                type = "COMPONENT_TYPE_TEXT_BLOCK";
+                "values_available" = 0;
+            },
+                        {
+                "cache_control" = UNCACHEABLE;
+                "start_index" = 0;
+                status = "STATUS_SUCCESS";
+                timestampFirstSeen = "466483193.078724";
+                type = "COMPONENT_TYPE_FACTOID";
+                "values_available" = 0;
+            },
+                        {
+                "cache_control" = UNCACHEABLE;
+                "start_index" = 0;
+                status = "STATUS_SUCCESS";
+                timestampFirstSeen = "466483193.078724";
+                type = "COMPONENT_TYPE_FLYOVER";
+                "values_available" = 0;
+            },
+                        {
+                "cache_control" = UNCACHEABLE;
+                "start_index" = 0;
+                status = "STATUS_SUCCESS";
+                timestampFirstSeen = "466483193.078724";
+                type = "COMPONENT_TYPE_BOUNDS";
+                value =                 (
+                                        {
+                        bounds =                         {
+                            "map_region" =                             {
+                                eastLng = "-95.1222928";
+                                northLat = "30.2688655";
+                                southLat = "30.268242";
+                                westLng = "-95.122336";
+                            };
+                        };
+                    }
+                );
+                "values_available" = 1;
+            },
+                        {
+                "cache_control" = UNCACHEABLE;
+                "start_index" = 0;
+                status = "STATUS_SUCCESS";
+                timestampFirstSeen = "466483193.078724";
+                type = "COMPONENT_TYPE_ROAD_ACCESS_INFO";
+                value =                 (
+                                        {
+                        "access_info" =                         {
+                            "road_access_point" =                             (
+                                                                {
+                                    drivingDirection = "ENTRY_EXIT";
+                                    isApproximate = 1;
+                                    location =                                     {
+                                        lat = "30.2688655";
+                                        lng = "-95.1222928";
+                                    };
+                                    walkingDirection = "ENTRY_EXIT";
+                                }
+                            );
+                        };
+                    }
+                );
+                "values_available" = 1;
+            },
+                        {
+                "cache_control" = UNCACHEABLE;
+                "start_index" = 0;
+                status = "STATUS_SUCCESS";
+                timestampFirstSeen = "466483193.078724";
+                type = "COMPONENT_TYPE_PLACE_INFO";
+                value =                 (
+                                        {
+                        "place_info" =                         {
+                            center =                             {
+                                lat = "30.2688655";
+                                lng = "-95.1222928";
+                            };
+                            timezone =                             {
+                                identifier = "America/Chicago";
+                            };
+                        };
+                    }
+                );
+                "values_available" = 1;
+            },
+                        {
+                "cache_control" = UNCACHEABLE;
+                "start_index" = 0;
+                status = "STATUS_SUCCESS";
+                timestampFirstSeen = "466483193.078724";
+                type = "COMPONENT_TYPE_ENTITY";
+                value =                 (
+                                        {
+                        entity =                         {
+                            "is_disputed" = 0;
+                            name =                             (
+                                                                {
+                                    locale = "en-US";
+                                    "string_value" = Jumbalaya;
+                                }
+                            );
+                            type = STREET;
+                        };
+                    }
+                );
+                "values_available" = 1;
+            },
+                        {
+                "cache_control" = UNCACHEABLE;
+                "start_index" = 0;
+                status = "STATUS_SUCCESS";
+                timestampFirstSeen = "466483193.078724";
+                type = "COMPONENT_TYPE_ADDRESS";
+                value =                 (
+                                        {
+                        address =                         {
+                            "localized_address" =                             (
+                                                                {
+                                    address =                                     {
+                                        formattedAddressLine =                                         (
+                                            Jumbalaya,
+                                            "Cleveland, TX  77327",
+                                            "United States"
+                                        );
+                                        structuredAddress =                                         {
+                                            administrativeArea = Texas;
+                                            administrativeAreaCode = TX;
+                                            country = "United States";
+                                            countryCode = US;
+                                            fullThoroughfare = Jumbalaya;
+                                            geoId =                                             (
+                                            );
+                                            locality = Cleveland;
+                                            postCode = 77327;
+                                            subAdministrativeArea = Liberty;
+                                            thoroughfare = Jumbalaya;
+                                        };
+                                    };
+                                    language = "en-US";
+                                }
+                            );
+                        };
+                    }
+                );
+                "values_available" = 1;
+            },
+                        {
+                "cache_control" = UNCACHEABLE;
+                "start_index" = 0;
+                status = "STATUS_SUCCESS";
+                timestampFirstSeen = "466483193.078724";
+                type = "COMPONENT_TYPE_AMENITIES";
+                "values_available" = 0;
+            },
+                        {
+                "cache_control" = UNCACHEABLE;
+                "start_index" = 0;
+                status = "STATUS_SUCCESS";
+                timestampFirstSeen = "466483193.078724";
+                type = "COMPONENT_TYPE_STYLE_ATTRIBUTES";
+                "values_available" = 0;
+            },
+                        {
+                "cache_control" = UNCACHEABLE;
+                "start_index" = 0;
+                status = "STATUS_SUCCESS";
+                timestampFirstSeen = "466483193.078724";
+                type = "COMPONENT_TYPE_RESULT_SNIPPET";
+                "values_available" = 0;
+            }
+        );
+        muid = 9007944764018972459;
+        referenceFrame = WGS84;
+        "result_provider_id" = 6489;
+        status = "STATUS_SUCCESS";
+    };
+}

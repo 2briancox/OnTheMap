@@ -9,23 +9,10 @@
 import UIKit
 
 class TabBarController: UITabBarController{
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.selectedIndex = 0
-        self.tabBar.backgroundColor = UIColor.whiteColor()
-        for item in self.tabBar.items! {
-            item.image!.awakeFromNib()
-        }
-        self.awakeFromNib()
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
-
-    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBar.items!.first!.image = UIImage(named: "Map_Icon")
+        self.tabBar.items!.last!.image = UIImage(named: "People_Icon")
+    }
 }

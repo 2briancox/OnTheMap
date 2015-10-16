@@ -163,6 +163,74 @@ class Client : NSObject {
         task.resume()
     }
     
+    
+    func postStudentInfo(person: StudentInformation, completionHandler: (errorString: String?) -> Void) {
+        let request = NSMutableURLRequest(URL: NSURL(string: "https://api.parse.com/1/classes/StudentLocation")!)
+        
+        request.HTTPMethod = "POST"
+        
+        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+        
+        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        
+        request.HTTPBody = "{\"uniqueKey\": \"\(person.uniqueKey)\", \"firstName\": \"\(person.firstName)\", \"lastName\": \"\(person.lastName)\",\"mapString\": \"\(person.mapString)\", \"mediaURL\": \"\(person.mediaURL)\",\"latitude\": \(person.latitude), \"longitude\": \(person.longitude)}".dataUsingEncoding(NSUTF8StringEncoding)
+        
+        let session = NSURLSession.sharedSession()
+        
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+            
+            if error != nil {
+                return
+            }
+            completionHandler(errorString: nil)
+            
+        }
+        
+        task.resume()
+    }
+    
+    func updateStudentInfo(id: String, person: StudentInformation, completionHandler: (data: NSData?, errorString: String?) -> Void) {
+        let urlString = "https://api.parse.com/1/classes/StudentLocation/\(id)"
+        
+        let url = NSURL(string: urlString)
+        
+        let request = NSMutableURLRequest(URL: url!)
+        
+        request.HTTPMethod = "PUT"
+        
+        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+        
+        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        request.HTTPBody = "{\"uniqueKey\": \"\(person.uniqueKey)\", \"firstName\": \"\(person.firstName)\", \"lastName\": \"\(person.lastName)\",\"mapString\": \"\(person.mapString)\", \"mediaURL\": \"\(person.mediaURL)\",\"latitude\": \(person.latitude), \"longitude\": \(person.longitude)}".dataUsingEncoding(NSUTF8StringEncoding)
+        
+        
+        let session = NSURLSession.sharedSession()
+        
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+        
+            if error != nil {
+                
+                completionHandler(data: nil, errorString: "There was an error posting your update to the server.")
+                return
+            }
+            
+            
+            completionHandler(data: data!, errorString: nil)
+            
+            print(NSString(data: data!, encoding: NSUTF8StringEncoding))
+
+            }
+        task.resume()
+    }
+    
+
+    
 
     class func sharedInstance() -> Client {
         

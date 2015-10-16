@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var userLatitude: Double = 0.0
     var userLongitude: Double = 0.0
     var people: [StudentInformation] = []
+    var shouldReload: Bool = false
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
