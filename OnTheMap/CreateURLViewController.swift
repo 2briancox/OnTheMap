@@ -13,6 +13,7 @@ class CreateURLViewController: UIViewController, UITextFieldDelegate {
     var passedLocation: String = ""
     var passedLatitude: Double = 0.0
     var passedLongitude: Double = 0.0
+    var objectID: String = ""
     var appDelegate: AppDelegate = AppDelegate()
     
     @IBOutlet weak var urlTextField: UITextField!
@@ -32,45 +33,18 @@ class CreateURLViewController: UIViewController, UITextFieldDelegate {
         } else if (urlTextField.text! as NSString).substringToIndex(8) != "https://" && (urlTextField.text! as NSString).substringToIndex(7) != "http://" {
             showAlertWithText("URL Error", message: "URLs must begin either with \"https://\" or \"http://\".")
         } else {
-            let person: StudentInformation = StudentInformation(personDict: ["firstName": appDelegate.userFirstName, "lastName": appDelegate.userLastName, "mediaURL": self.urlTextField.text! as String, "uniqueKey": appDelegate.key, "latitude": passedLatitude, "longitude": passedLongitude, "mapString":passedLocation])
             if appDelegate.userMediaURL == ""
             {
-                Client.sharedInstance().postStudentInfo(person) { (errorString) in
-                    if errorString == nil {
-                        self.getAllStudents()
-                    } else {
-                        self.showAlertWithText("Login Error", message: errorString!)
-                    }
-                }
-                
+                self.postStudentInfo()
             } else {
-                Client.sharedInstance().updateStudentInfo(self.appDelegate.id, person: person) { (data, errorString) in
-                    if errorString == nil {
-                        let parsedJSON = (try! NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)) as! Dictionary<String, AnyObject>
-                        if !Array(parsedJSON.keys).contains("results") {
-                            self.showAlertWithText("Update Error", message: "The server was unable to update your account.")
-                            return
-                        }
-                        if let responseArray: Dictionary<String, AnyObject> = (parsedJSON["results"] as! Dictionary<String, AnyObject>) {
-                            print(responseArray)
-                            if Array(responseArray.keys).contains("error") {
-                                self.showAlertWithText("Update Error", message: "The server was unable to update your account.")
-                                return
-                            }
-                        } else {
-                            self.getAllStudents()
-                        }
-                    } else {
-                        self.showAlertWithText("Update Error", message: errorString!)
-                    }
-                }
+                self.queryStudentLocation()
             }
         }
     }
     
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+        self.view.endEditing(true)
         shareButtonPressed(UIButton())
         return true
     }
@@ -98,6 +72,42 @@ class CreateURLViewController: UIViewController, UITextFieldDelegate {
     }
     
     
+    func updateStudentInfo() {
+        let person: StudentInformation = StudentInformation(personDict: ["firstName": appDelegate.userFirstName, "lastName": appDelegate.userLastName, "mediaURL": self.urlTextField.text! as String, "uniqueKey": appDelegate.key, "latitude": passedLatitude, "longitude": passedLongitude, "mapString":passedLocation])
+        Client.sharedInstance().updateStudentInfo(objectID, person: person) { (data, errorString) in
+            if errorString == nil {
+                self.getAllStudents()
+            } else {
+                self.showAlertWithText("Update Error", message: errorString!)
+            }
+        }
+    }
+    
+    
+    func postStudentInfo() {
+        let person: StudentInformation = StudentInformation(personDict: ["firstName": appDelegate.userFirstName, "lastName": appDelegate.userLastName, "mediaURL": self.urlTextField.text! as String, "uniqueKey": appDelegate.key, "latitude": passedLatitude, "longitude": passedLongitude, "mapString":passedLocation])
+        Client.sharedInstance().postStudentInfo(person) { (errorString) in
+            if errorString == nil {
+                self.getAllStudents()
+            } else {
+                self.showAlertWithText("Login Error", message: errorString!)
+            }
+        }
+    }
+    
+    
+    func queryStudentLocation() {
+        Client.sharedInstance().queryStudentLocation(appDelegate.key) { (objectID, errorString) in
+            if errorString == nil {
+                self.objectID = objectID!
+                self.updateStudentInfo()
+            } else {
+                self.showAlertWithText("Login Error", message: errorString!)
+            }
+        }
+    }
+    
+    
     @IBAction func cancelButtonPressed(sender: UIButton) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -108,4 +118,5 @@ class CreateURLViewController: UIViewController, UITextFieldDelegate {
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
+    
 }

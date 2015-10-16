@@ -37,7 +37,6 @@ class UdacityAuthViewController: UIViewController, UITextFieldDelegate {
     
     
     func login() {
-        
         guard let password: String = passwordTextField.text else {
             showAlertWithText("Password Error", message: "A password must be entered.")
             return
@@ -51,9 +50,7 @@ class UdacityAuthViewController: UIViewController, UITextFieldDelegate {
         Client.sharedInstance().performLogin(username, password: password) { (key, id , errorString) in
             if errorString == nil {
                 self.appDelegate.key = key!
-                print(key)
                 self.appDelegate.id = id!
-                print(id)
                 self.getUserData()
             } else {
                 self.showAlertWithText("Login Error", message: errorString!)
@@ -79,9 +76,7 @@ class UdacityAuthViewController: UIViewController, UITextFieldDelegate {
         Client.sharedInstance().getAllStudents(appDelegate.key) { (people, mediaURL, longitude, latitude, errorString) in
             if errorString == nil {
                 self.appDelegate.people = people!
-                print(people)
                 self.appDelegate.userMediaURL = mediaURL!
-                print(mediaURL)
                 self.appDelegate.userLatitude = latitude!
                 self.appDelegate.userLongitude = longitude!
                 self.performSegueWithIdentifier("loginCompleteSegue", sender: self)
@@ -141,7 +136,6 @@ class UdacityAuthViewController: UIViewController, UITextFieldDelegate {
         view.layer.addAnimation(changeColor, forKey: nil)
         
         CATransaction.commit()
-        
     }
     
 }

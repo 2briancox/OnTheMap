@@ -108,12 +108,7 @@ class SearchViewController: UIViewController, MKMapViewDelegate, UITextFieldDele
         self.mapView.alpha = 0.4
         self.activityIndicator.startAnimating()
     }
-    
-    
-    func mapViewDidFinishLoadingMap(mapView: MKMapView) {
-        self.mapView.alpha = 1.0
-        self.activityIndicator.stopAnimating()
-    }
+
         
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)

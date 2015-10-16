@@ -126,10 +126,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.activityIndicator.startAnimating()
     }
     
-    func mapViewDidFinishLoadingMap(mapView: MKMapView) {
-        self.mapView.alpha = 1.0
-        self.activityIndicator.stopAnimating()
-    }
     
     func loadData() {
         let locations = self.appDelegate.people

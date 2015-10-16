@@ -55,9 +55,7 @@ class Client : NSObject {
                 return
             } else {
                 let account = parsed["account"] as! Dictionary<String, AnyObject>
-                
                 let sessionID = parsed["session"] as! Dictionary<String, AnyObject>
-                
                 completionHandler(key: (account["key"] as! String), id: (sessionID["id"] as! String), errorString: nil)
             }
         }
@@ -183,6 +181,7 @@ class Client : NSObject {
         let task = session.dataTaskWithRequest(request) { data, response, error in
             
             if error != nil {
+                completionHandler(errorString: "There was an error posting your data.")
                 return
             }
             completionHandler(errorString: nil)
@@ -219,16 +218,41 @@ class Client : NSObject {
                 completionHandler(data: nil, errorString: "There was an error posting your update to the server.")
                 return
             }
-            
-            
             completionHandler(data: data!, errorString: nil)
-            
-            print(NSString(data: data!, encoding: NSUTF8StringEncoding))
 
             }
         task.resume()
     }
     
+    func queryStudentLocation(key: String, completionHandler: (objectID: String?, errorString: String?) -> Void) {
+        let urlString = "https://api.parse.com/1/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22\(key)%22%7D"
+        
+        let url = NSURL(string: urlString)
+        
+        let request = NSMutableURLRequest(URL: url!)
+        
+        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+        
+        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        
+        let session = NSURLSession.sharedSession()
+        
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+            
+            
+            
+            let parseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+            
+            let firstPart = parseString?.componentsSeparatedByString("\"objectId\":\"")[1]
+            
+            let objectID = firstPart?.componentsSeparatedByString("\"")[0]
+            
+            completionHandler(objectID: objectID, errorString: nil)
+            
+        }
+        
+        task.resume()
+    }
 
     
 

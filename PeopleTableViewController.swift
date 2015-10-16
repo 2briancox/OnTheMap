@@ -41,6 +41,7 @@ class PeopleTableViewController: UITableViewController, MKMapViewDelegate, CLLoc
         if appDelegate.userMediaURL != "" {
             locationButton.image = UIImage(named: "YourLocation")
         }
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
