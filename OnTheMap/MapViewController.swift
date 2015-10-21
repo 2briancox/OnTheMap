@@ -12,7 +12,6 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
-    var appDelegate:AppDelegate = AppDelegate()
     var meAnnotation: Int = 200
     
     @IBOutlet weak var mapView: MKMapView!
@@ -22,7 +21,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     @IBOutlet weak var locationBarButtonIcon: UIBarButtonItem!
 
     @IBAction func locationButtonPressed(sender: UIBarButtonItem) {
-        if appDelegate.userMediaURL == "" {
+        if DataModel.sharedInstance().userMediaURL == "" {
             self.performSegueWithIdentifier("mapToSearch", sender: self)
         } else {
             selectMe()
@@ -39,30 +38,27 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let object = UIApplication.sharedApplication().delegate
-        appDelegate = object as! AppDelegate
-        
         mapView.delegate = self
         
         loadData()
     }
     
     override func viewWillAppear(animated: Bool) {
-        if appDelegate.userMediaURL != "" {
+        if DataModel.sharedInstance().userMediaURL != "" {
             locationBarButtonIcon.image = UIImage(named: "YourLocation")
         }
-        if appDelegate.shouldReload {
-            appDelegate.shouldReload = false
+        if DataModel.sharedInstance().shouldReload {
+            DataModel.sharedInstance().shouldReload = false
             loadData()
         }
     }
     
     func selectMe() {
-        mapView.centerCoordinate = CLLocationCoordinate2D(latitude: appDelegate.userLatitude, longitude: appDelegate.userLongitude)
+        mapView.centerCoordinate = CLLocationCoordinate2D(latitude: DataModel.sharedInstance().userLatitude, longitude: DataModel.sharedInstance().userLongitude)
         mapView.region = mapView.regionThatFits(MKCoordinateRegionMake(mapView.centerCoordinate, MKCoordinateSpanMake(CLLocationDegrees(5.0), CLLocationDegrees(5.0))))
         var me = 200
         for var i = 0; i < mapView.annotations.count; i++ {
-            if mapView.annotations[i].coordinate.latitude == appDelegate.userLatitude && mapView.annotations[i].coordinate.longitude == appDelegate.userLongitude {
+            if mapView.annotations[i].coordinate.latitude == DataModel.sharedInstance().userLatitude && mapView.annotations[i].coordinate.longitude == DataModel.sharedInstance().userLongitude {
                 me = i
             }
         }
@@ -128,7 +124,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     
     func loadData() {
-        let locations = self.appDelegate.people
+        let locations = DataModel.sharedInstance().people
         
         var annotations = [MKPointAnnotation]()
         

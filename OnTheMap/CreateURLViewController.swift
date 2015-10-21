@@ -14,15 +14,12 @@ class CreateURLViewController: UIViewController, UITextFieldDelegate {
     var passedLatitude: Double = 0.0
     var passedLongitude: Double = 0.0
     var objectID: String = ""
-    var appDelegate: AppDelegate = AppDelegate()
     
     @IBOutlet weak var urlTextField: UITextField!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let object = UIApplication.sharedApplication().delegate
-        appDelegate = object as! AppDelegate
         urlTextField.delegate = self
     }
     
@@ -33,7 +30,7 @@ class CreateURLViewController: UIViewController, UITextFieldDelegate {
         } else if (urlTextField.text! as NSString).substringToIndex(8) != "https://" && (urlTextField.text! as NSString).substringToIndex(7) != "http://" {
             showAlertWithText("URL Error", message: "URLs must begin either with \"https://\" or \"http://\".")
         } else {
-            if appDelegate.userMediaURL == ""
+            if DataModel.sharedInstance().userMediaURL == ""
             {
                 self.postStudentInfo()
             } else {
@@ -48,7 +45,7 @@ class CreateURLViewController: UIViewController, UITextFieldDelegate {
         shareButtonPressed(UIButton())
         return true
     }
-    
+
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
@@ -57,13 +54,13 @@ class CreateURLViewController: UIViewController, UITextFieldDelegate {
 
     
     func getAllStudents() {
-        Client.sharedInstance().getAllStudents(appDelegate.key) { (people, mediaURL, longitude, latitude, errorString) in
+        Client.sharedInstance().getAllStudents(DataModel.sharedInstance().key) { (people, mediaURL, longitude, latitude, errorString) in
             if errorString == nil {
-                self.appDelegate.people = people!
-                self.appDelegate.userMediaURL = mediaURL!
-                self.appDelegate.userLatitude = latitude!
-                self.appDelegate.userLongitude = longitude!
-                self.appDelegate.shouldReload = true
+                DataModel.sharedInstance().people = people!
+                DataModel.sharedInstance().userMediaURL = mediaURL!
+                DataModel.sharedInstance().userLatitude = latitude!
+                DataModel.sharedInstance().userLongitude = longitude!
+                DataModel.sharedInstance().shouldReload = true
                 self.dismissViewControllerAnimated(true, completion: nil)
             } else {
                 self.showAlertWithText("Server Error", message: errorString!)
@@ -73,7 +70,7 @@ class CreateURLViewController: UIViewController, UITextFieldDelegate {
     
     
     func updateStudentInfo() {
-        let person: StudentInformation = StudentInformation(personDict: ["firstName": appDelegate.userFirstName, "lastName": appDelegate.userLastName, "mediaURL": self.urlTextField.text! as String, "uniqueKey": appDelegate.key, "latitude": passedLatitude, "longitude": passedLongitude, "mapString":passedLocation])
+        let person: StudentInformation = StudentInformation(personDict: ["firstName": DataModel.sharedInstance().userFirstName, "lastName": DataModel.sharedInstance().userLastName, "mediaURL": self.urlTextField.text! as String, "uniqueKey": DataModel.sharedInstance().key, "latitude": passedLatitude, "longitude": passedLongitude, "mapString":passedLocation])
         Client.sharedInstance().updateStudentInfo(objectID, person: person) { (data, errorString) in
             if errorString == nil {
                 self.getAllStudents()
@@ -85,7 +82,7 @@ class CreateURLViewController: UIViewController, UITextFieldDelegate {
     
     
     func postStudentInfo() {
-        let person: StudentInformation = StudentInformation(personDict: ["firstName": appDelegate.userFirstName, "lastName": appDelegate.userLastName, "mediaURL": self.urlTextField.text! as String, "uniqueKey": appDelegate.key, "latitude": passedLatitude, "longitude": passedLongitude, "mapString":passedLocation])
+        let person: StudentInformation = StudentInformation(personDict: ["firstName": DataModel.sharedInstance().userFirstName, "lastName": DataModel.sharedInstance().userLastName, "mediaURL": self.urlTextField.text! as String, "uniqueKey": DataModel.sharedInstance().key, "latitude": passedLatitude, "longitude": passedLongitude, "mapString":passedLocation])
         Client.sharedInstance().postStudentInfo(person) { (errorString) in
             if errorString == nil {
                 self.getAllStudents()
@@ -97,7 +94,7 @@ class CreateURLViewController: UIViewController, UITextFieldDelegate {
     
     
     func queryStudentLocation() {
-        Client.sharedInstance().queryStudentLocation(appDelegate.key) { (objectID, errorString) in
+        Client.sharedInstance().queryStudentLocation(DataModel.sharedInstance().key) { (objectID, errorString) in
             if errorString == nil {
                 self.objectID = objectID!
                 self.updateStudentInfo()

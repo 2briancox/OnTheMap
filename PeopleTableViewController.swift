@@ -11,12 +11,11 @@ import MapKit
 
 class PeopleTableViewController: UITableViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
-    var appDelegate:AppDelegate = AppDelegate()
     
     @IBOutlet weak var locationButton: UIBarButtonItem!
     
     @IBAction func locationButtonPresed(sender: UIBarButtonItem) {
-        if appDelegate.userMediaURL == "" {
+        if DataModel.sharedInstance().userMediaURL == "" {
             self.performSegueWithIdentifier("tableToSearch", sender: self)
         } else {
             let checkOK = UIAlertController(title: "Location already entered", message: "Are you sure you want to change your existing OnTheMap location?", preferredStyle: UIAlertControllerStyle.Alert)
@@ -29,16 +28,9 @@ class PeopleTableViewController: UITableViewController, MKMapViewDelegate, CLLoc
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        let object = UIApplication.sharedApplication().delegate
-        appDelegate = object as! AppDelegate
-    }
-    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        if appDelegate.userMediaURL != "" {
+        if DataModel.sharedInstance().userMediaURL != "" {
             locationButton.image = UIImage(named: "YourLocation")
         }
         tableView.reloadData()
@@ -52,7 +44,7 @@ class PeopleTableViewController: UITableViewController, MKMapViewDelegate, CLLoc
     
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return appDelegate.people.count
+        return DataModel.sharedInstance().people.count
     }
     
 
@@ -70,21 +62,21 @@ class PeopleTableViewController: UITableViewController, MKMapViewDelegate, CLLoc
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("studentCell", forIndexPath: indexPath) as! StudentTableCell
-        cell.nameLabel.text = appDelegate.people[indexPath.row].firstName + " " + appDelegate.people[indexPath.row].lastName
-        if appDelegate.people[indexPath.row].uniqueKey == appDelegate.key  {
+        cell.nameLabel.text = DataModel.sharedInstance().people[indexPath.row].firstName + " " + DataModel.sharedInstance().people[indexPath.row].lastName
+        if DataModel.sharedInstance().people[indexPath.row].uniqueKey == DataModel.sharedInstance().key  {
             cell.locationIcon.image = UIImage(named: "YourLocation")
         } else {
             cell.locationIcon.image = UIImage(named: "Location")
         }
-        cell.locationLabel.text = appDelegate.people[indexPath.row].mapString
-        cell.linkLabel.text = appDelegate.people[indexPath.row].mediaURL
+        cell.locationLabel.text = DataModel.sharedInstance().people[indexPath.row].mapString
+        cell.linkLabel.text = DataModel.sharedInstance().people[indexPath.row].mediaURL
         return cell
     }
 
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let app = UIApplication.sharedApplication()
-        app.openURL(NSURL(string: appDelegate.people[indexPath.row].mediaURL)!)
+        app.openURL(NSURL(string: DataModel.sharedInstance().people[indexPath.row].mediaURL)!)
     }
     
     

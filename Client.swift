@@ -64,9 +64,9 @@ class Client : NSObject {
     }
     
     
-    func getUserData(appDelegateKey: String, completionHandler: (firstName: String?, lastName: String?, errorString: String?) -> Void) {
+    func getUserData(DataModelKey: String, completionHandler: (firstName: String?, lastName: String?, errorString: String?) -> Void) {
 
-        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/users/\(appDelegateKey)")!)
+        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/users/\(DataModelKey)")!)
         let session = NSURLSession.sharedSession()
 
         let task = session.dataTaskWithRequest(request) { data, response, error in

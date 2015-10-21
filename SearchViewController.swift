@@ -14,7 +14,6 @@ class SearchViewController: UIViewController, MKMapViewDelegate, UITextFieldDele
     var location: String = ""
     var lat: Double = 0.0
     var long: Double = 0.0
-    var appDelegate: AppDelegate = AppDelegate()
     
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet weak var mapView: MKMapView!
@@ -29,8 +28,6 @@ class SearchViewController: UIViewController, MKMapViewDelegate, UITextFieldDele
         mapView.delegate = self
         locationTextField.delegate = self
         
-        let object = UIApplication.sharedApplication().delegate
-        appDelegate = object as! AppDelegate
     }
 
     override func didReceiveMemoryWarning() {
@@ -112,7 +109,7 @@ class SearchViewController: UIViewController, MKMapViewDelegate, UITextFieldDele
         
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        if appDelegate.shouldReload {
+        if DataModel.sharedInstance().shouldReload {
             self.dismissViewControllerAnimated(true, completion: nil)
         }
     }

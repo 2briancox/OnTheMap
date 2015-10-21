@@ -13,9 +13,6 @@ class UdacityAuthViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
-    var appDelegate:AppDelegate = AppDelegate()
-    
-    
     @IBAction func LoginButtonPressed(sender: UIButton) {
         view.endEditing(true)
         login()
@@ -29,8 +26,6 @@ class UdacityAuthViewController: UIViewController, UITextFieldDelegate {
     
     
     override func viewDidLoad() {
-        let object = UIApplication.sharedApplication().delegate
-        appDelegate = object as! AppDelegate
         usernameTextField.delegate = self
         passwordTextField.delegate = self
     }
@@ -49,8 +44,8 @@ class UdacityAuthViewController: UIViewController, UITextFieldDelegate {
         
         Client.sharedInstance().performLogin(username, password: password) { (key, id , errorString) in
             if errorString == nil {
-                self.appDelegate.key = key!
-                self.appDelegate.id = id!
+                DataModel.sharedInstance().key = key!
+                DataModel.sharedInstance().id = id!
                 self.getUserData()
             } else {
                 self.showAlertWithText("Login Error", message: errorString!)
@@ -60,10 +55,10 @@ class UdacityAuthViewController: UIViewController, UITextFieldDelegate {
     
     
     func getUserData() {
-        Client.sharedInstance().getUserData(appDelegate.key) { (firstName, lastName , errorString) in
+        Client.sharedInstance().getUserData(DataModel.sharedInstance().key) { (firstName, lastName , errorString) in
             if errorString == nil {
-                self.appDelegate.userFirstName = firstName!
-                self.appDelegate.userLastName = lastName!
+                DataModel.sharedInstance().userFirstName = firstName!
+                DataModel.sharedInstance().userLastName = lastName!
                 self.getAllStudents()
             } else {
                 self.showAlertWithText("Server Error", message: errorString!)
@@ -73,12 +68,12 @@ class UdacityAuthViewController: UIViewController, UITextFieldDelegate {
     
     
     func getAllStudents() {
-        Client.sharedInstance().getAllStudents(appDelegate.key) { (people, mediaURL, longitude, latitude, errorString) in
+        Client.sharedInstance().getAllStudents(DataModel.sharedInstance().key) { (people, mediaURL, longitude, latitude, errorString) in
             if errorString == nil {
-                self.appDelegate.people = people!
-                self.appDelegate.userMediaURL = mediaURL!
-                self.appDelegate.userLatitude = latitude!
-                self.appDelegate.userLongitude = longitude!
+                DataModel.sharedInstance().people = people!
+                DataModel.sharedInstance().userMediaURL = mediaURL!
+                DataModel.sharedInstance().userLatitude = latitude!
+                DataModel.sharedInstance().userLongitude = longitude!
                 self.performSegueWithIdentifier("loginCompleteSegue", sender: self)
             } else {
                 self.showAlertWithText("Server Error", message: errorString!)

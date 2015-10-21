@@ -26,4 +26,5 @@ struct StudentInformation {
         longitude = personDict["longitude"] as! Double
         mapString = personDict["mapString"] as! String
     }
+    
 }

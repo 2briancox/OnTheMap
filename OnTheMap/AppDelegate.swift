@@ -12,15 +12,6 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var key:String = ""
-    var id:String = ""
-    var userFirstName: String = ""
-    var userLastName: String = ""
-    var userMediaURL: String = ""
-    var userLatitude: Double = 0.0
-    var userLongitude: Double = 0.0
-    var people: [StudentInformation] = []
-    var shouldReload: Bool = false
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -48,7 +39,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
 
 }
 

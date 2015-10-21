@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		046F2F651BD72C61009D914A /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046F2F641BD72C61009D914A /* DataModel.swift */; settings = {ASSET_TAGS = (); }; };
 		04A16A8F1BCB4953004D35FB /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A16A8E1BCB4953004D35FB /* SearchViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		04D422BA1BCF436D00D1F869 /* CreateURLViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D422B91BCF436D00D1F869 /* CreateURLViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		04D422BD1BCF617D00D1F869 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04D422BB1BCF617D00D1F869 /* Main.storyboard */; settings = {ASSET_TAGS = (); }; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		046F2F641BD72C61009D914A /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		04A16A8E1BCB4953004D35FB /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		04D422B91BCF436D00D1F869 /* CreateURLViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateURLViewController.swift; path = OnTheMap/CreateURLViewController.swift; sourceTree = "<group>"; };
 		04D422BC1BCF617D00D1F869 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 			children = (
 				04FF885D1BC8894B0016AC1B /* Clients */,
 				04FF885A1BC836310016AC1B /* StudentInformationStruct.swift */,
+				046F2F641BD72C61009D914A /* DataModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -184,6 +187,7 @@
 			files = (
 				04FF88511BC0773F0016AC1B /* UdacityAuthViewController.swift in Sources */,
 				04FF885B1BC836310016AC1B /* StudentInformationStruct.swift in Sources */,
+				046F2F651BD72C61009D914A /* DataModel.swift in Sources */,
 				04D422BA1BCF436D00D1F869 /* CreateURLViewController.swift in Sources */,
 				04FF885F1BC889600016AC1B /* Client.swift in Sources */,
 				04A16A8F1BCB4953004D35FB /* SearchViewController.swift in Sources */,
