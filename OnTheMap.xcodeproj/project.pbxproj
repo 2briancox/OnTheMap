@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		046F2F651BD72C61009D914A /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046F2F641BD72C61009D914A /* DataModel.swift */; settings = {ASSET_TAGS = (); }; };
 		04A16A8F1BCB4953004D35FB /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A16A8E1BCB4953004D35FB /* SearchViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		04AB486A1BD8A81D008F7345 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AB48691BD8A81D008F7345 /* WebViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		04D422BA1BCF436D00D1F869 /* CreateURLViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D422B91BCF436D00D1F869 /* CreateURLViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		04D422BD1BCF617D00D1F869 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04D422BB1BCF617D00D1F869 /* Main.storyboard */; settings = {ASSET_TAGS = (); }; };
 		04D469A41BBCB9D200BD295D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D469A31BBCB9D200BD295D /* AppDelegate.swift */; };
@@ -26,6 +27,7 @@
 /* Begin PBXFileReference section */
 		046F2F641BD72C61009D914A /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		04A16A8E1BCB4953004D35FB /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		04AB48691BD8A81D008F7345 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		04D422B91BCF436D00D1F869 /* CreateURLViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateURLViewController.swift; path = OnTheMap/CreateURLViewController.swift; sourceTree = "<group>"; };
 		04D422BC1BCF617D00D1F869 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		04D469A01BBCB9D200BD295D /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,6 +95,7 @@
 				04FF88671BCAD5D30016AC1B /* TabBarController.swift */,
 				04A16A8E1BCB4953004D35FB /* SearchViewController.swift */,
 				04D422B91BCF436D00D1F869 /* CreateURLViewController.swift */,
+				04AB48691BD8A81D008F7345 /* WebViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -192,6 +195,7 @@
 				04FF885F1BC889600016AC1B /* Client.swift in Sources */,
 				04A16A8F1BCB4953004D35FB /* SearchViewController.swift in Sources */,
 				04D469A41BBCB9D200BD295D /* AppDelegate.swift in Sources */,
+				04AB486A1BD8A81D008F7345 /* WebViewController.swift in Sources */,
 				04FF88531BC0ED920016AC1B /* MapViewController.swift in Sources */,
 				04FF88591BC211A50016AC1B /* PeopleTableViewController.swift in Sources */,
 				04FF88681BCAD5D30016AC1B /* TabBarController.swift in Sources */,

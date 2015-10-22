@@ -15,12 +15,32 @@ class CreateURLViewController: UIViewController, UITextFieldDelegate {
     var passedLongitude: Double = 0.0
     var objectID: String = ""
     
+    var urlToPass: NSURL? = nil
+    
     @IBOutlet weak var urlTextField: UITextField!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         urlTextField.delegate = self
+    }
+    
+    
+    @IBAction func testButtonPressed(sender: UIButton) {
+        
+        if urlTextField.text == "" {
+            showAlertWithText("URL Error", message: "The URL must not be blank")
+        } else if (urlTextField.text! as NSString).substringToIndex(8) != "https://" && (urlTextField.text! as NSString).substringToIndex(7) != "http://" {
+            showAlertWithText("URL Error", message: "URLs must begin either with \"https://\" or \"http://\".")
+        } else {
+            let enteredURL = NSURL(string: urlTextField.text!)
+            if enteredURL == nil {
+                showAlertWithText("URL Error", message: "This is not a valid URL.  Please type a valid URL.")
+            } else {
+                urlToPass = enteredURL
+                performSegueWithIdentifier("showWeb", sender: self)
+            }
+        }
     }
     
     
@@ -107,6 +127,14 @@ class CreateURLViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func cancelButtonPressed(sender: UIButton) {
         self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showWeb" {
+            let vc = segue.destinationViewController as! WebViewController
+            vc.theURL = urlToPass
+        }
     }
     
     

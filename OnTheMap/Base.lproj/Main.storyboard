@@ -447,6 +447,15 @@
                                     <action selector="cancelButtonPressed:" destination="F3z-Bo-akY" eventType="touchUpInside" id="KNL-O4-ejB"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iq9-Qo-czl">
+                                <rect key="frame" x="20" y="323" width="62" height="30"/>
+                                <state key="normal" title="Test URL">
+                                    <color key="titleColor" red="0.1450980392" green="0.2274509804" blue="0.1764705882" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="testButtonPressed:" destination="F3z-Bo-akY" eventType="touchUpInside" id="omJ-5k-1ld"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.64679786621276936" green="1" blue="0.79625241309337458" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -454,20 +463,65 @@
                             <constraint firstItem="3u0-bg-JhU" firstAttribute="centerX" secondItem="VEu-R5-0Hd" secondAttribute="centerX" id="1aj-a7-kcP"/>
                             <constraint firstItem="VEu-R5-0Hd" firstAttribute="top" secondItem="fVd-jA-4Us" secondAttribute="bottom" constant="32" id="JbS-bM-DuB"/>
                             <constraint firstAttribute="trailingMargin" secondItem="K73-wl-zrl" secondAttribute="trailing" id="LqE-Zx-aM0"/>
+                            <constraint firstItem="Iq9-Qo-czl" firstAttribute="leading" secondItem="VEu-R5-0Hd" secondAttribute="leading" id="RjM-Hk-KZ3"/>
                             <constraint firstItem="VEu-R5-0Hd" firstAttribute="centerY" secondItem="vG7-H0-odY" secondAttribute="centerY" id="fpZ-NA-aBb"/>
                             <constraint firstItem="VEu-R5-0Hd" firstAttribute="leading" secondItem="vG7-H0-odY" secondAttribute="leadingMargin" id="hpc-VL-R3k"/>
                             <constraint firstItem="fVd-jA-4Us" firstAttribute="centerX" secondItem="vG7-H0-odY" secondAttribute="centerX" id="i8H-1h-0oN"/>
                             <constraint firstItem="3u0-bg-JhU" firstAttribute="top" secondItem="VEu-R5-0Hd" secondAttribute="bottom" constant="8" symbolic="YES" id="ixI-Ca-HAX"/>
                             <constraint firstItem="VEu-R5-0Hd" firstAttribute="trailing" secondItem="vG7-H0-odY" secondAttribute="trailingMargin" id="lGL-ih-uTl"/>
+                            <constraint firstItem="Iq9-Qo-czl" firstAttribute="baseline" secondItem="3u0-bg-JhU" secondAttribute="baseline" id="nXV-w4-GJc"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="urlTextField" destination="VEu-R5-0Hd" id="AXG-Gd-kAD"/>
+                        <segue destination="ea3-z8-0tU" kind="presentation" identifier="showWeb" id="kRW-XW-78K"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="88X-Tw-f6I" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4366" y="533"/>
+        </scene>
+        <!--Web View Controller-->
+        <scene sceneID="n2X-9z-WpB">
+            <objects>
+                <viewController id="ea3-z8-0tU" customClass="WebViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ygh-Jr-6jf"/>
+                        <viewControllerLayoutGuide type="bottom" id="ANT-Y6-9Wd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="aG6-Vo-si4">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gLF-2E-yfG">
+                                <rect key="frame" x="0.0" y="66" width="600" height="534"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </webView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xnu-zl-6JL">
+                                <rect key="frame" x="19" y="28" width="48" height="30"/>
+                                <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <action selector="cancelButtonPressed:" destination="ea3-z8-0tU" eventType="touchUpInside" id="vdw-5E-u2T"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="gLF-2E-yfG" firstAttribute="top" secondItem="Xnu-zl-6JL" secondAttribute="bottom" constant="8" symbolic="YES" id="ISh-5g-8qn"/>
+                            <constraint firstItem="Xnu-zl-6JL" firstAttribute="leading" secondItem="aG6-Vo-si4" secondAttribute="leadingMargin" constant="-1" id="Ike-q4-wOe"/>
+                            <constraint firstItem="gLF-2E-yfG" firstAttribute="bottom" secondItem="ANT-Y6-9Wd" secondAttribute="top" id="OzP-CP-d6p"/>
+                            <constraint firstItem="gLF-2E-yfG" firstAttribute="leading" secondItem="aG6-Vo-si4" secondAttribute="leading" id="Umh-FG-HXw"/>
+                            <constraint firstItem="Xnu-zl-6JL" firstAttribute="top" secondItem="ygh-Jr-6jf" secondAttribute="bottom" constant="8" symbolic="YES" id="s1R-5x-lv0"/>
+                            <constraint firstAttribute="trailing" secondItem="gLF-2E-yfG" secondAttribute="trailing" id="wbd-Z8-baA"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="gLF-2E-yfG" id="aVL-4K-bMb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xwD-pQ-M7H" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5167" y="533"/>
         </scene>
         <!--People-->
         <scene sceneID="7Am-ee-LPK">
