@@ -10,14 +10,19 @@ import UIKit
 import MapKit
 
 class PeopleTableViewController: UITableViewController, MKMapViewDelegate, CLLocationManagerDelegate {
-
     
     @IBOutlet weak var locationButton: UIBarButtonItem!
     
     @IBAction func locationButtonPresed(sender: UIBarButtonItem) {
+        DataModel.sharedInstance().shouldReload = false
         if DataModel.sharedInstance().userMediaURL == "" {
             self.performSegueWithIdentifier("tableToSearch", sender: self)
         } else {
+            for var i = 0; i < DataModel.sharedInstance().people.count; i++ {
+                if DataModel.sharedInstance().people[i].uniqueKey == DataModel.sharedInstance().key  {
+                    tableView.scrollToRowAtIndexPath(NSIndexPath(forItem: i, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+                }
+            }
             let checkOK = UIAlertController(title: "Location already entered", message: "Are you sure you want to change your existing OnTheMap location?", preferredStyle: UIAlertControllerStyle.Alert)
             checkOK.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: {
                 checkOK in
