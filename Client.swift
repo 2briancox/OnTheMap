@@ -91,7 +91,7 @@ class Client : NSObject {
     }
     
     
-    func getAllStudents(uniqueKey: String, completionHandler: (people: [StudentInformation]?, mediaURL: String?, longitude: Double?, latitude: Double?, errorString: String?) -> Void) {
+    func getAllStudents(uniqueKey: String, completionHandler: (mediaURL: String?, longitude: Double?, latitude: Double?, errorString: String?) -> Void) {
         
         let request = NSMutableURLRequest(URL: NSURL(string: "https://api.parse.com/1/classes/StudentLocation?limit=100&order=-updatedAt")!)
         request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
@@ -101,15 +101,20 @@ class Client : NSObject {
         let session = NSURLSession.sharedSession()
         
         let task = session.dataTaskWithRequest(request) { data, response, error in
-            if error != nil {
-                completionHandler(people: nil, mediaURL: nil, longitude: nil, latitude: nil, errorString: "Could not reach the student information server.")
+            if error != nil || data == nil {
+                completionHandler(mediaURL: nil, longitude: nil, latitude: nil, errorString: "Could not reach the student information server.")
                 return
             } else {
+                
                 var parsedJSON: Dictionary<String, AnyObject>
                 do {
                     parsedJSON = (try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! Dictionary<String, AnyObject>)
                 } catch {
-                    completionHandler(people: nil, mediaURL: nil, longitude: nil, latitude: nil, errorString: "Could not reach the student information server.")
+                    completionHandler(mediaURL: nil, longitude: nil, latitude: nil, errorString: "Could not reach the student information server.")
+                    return
+                }
+                if parsedJSON["results"] == nil {
+                    completionHandler(mediaURL: nil, longitude: nil, latitude: nil, errorString: "Could not reach the student information server.")
                     return
                 }
                 
@@ -117,7 +122,7 @@ class Client : NSObject {
                 var userMediaURL: String? = nil
                 var userLongitude: Double? = nil
                 var userLatitude: Double? = nil
-                var thePeople: [StudentInformation] = []
+                DataModel.sharedInstance().people = []
                 for peep in personArray {
                     let thisPerson: StudentInformation = StudentInformation(personDict: peep)
                     if thisPerson.uniqueKey == uniqueKey {
@@ -125,10 +130,10 @@ class Client : NSObject {
                         userLongitude = thisPerson.longitude
                         userLatitude = thisPerson.latitude
                     }
-                    thePeople.append(thisPerson)
+                    DataModel.sharedInstance().people.append(thisPerson)
                 }
                 
-                completionHandler(people: thePeople, mediaURL: userMediaURL, longitude: userLongitude, latitude: userLatitude, errorString: nil)
+                completionHandler(mediaURL: userMediaURL, longitude: userLongitude, latitude: userLatitude, errorString: nil)
                 
             }
         }
@@ -192,10 +197,16 @@ class Client : NSObject {
         let task = session.dataTaskWithRequest(request) { data, response, error in
             
             if error != nil || data == nil {
-                completionHandler(errorString: "There was an error posting your data.")
+                completionHandler(errorString: "There was an error posting your data to the server.")
                 return
             }
-            completionHandler(errorString: nil)
+            if NSString(data: data!, encoding: NSUTF8StringEncoding) != "" {
+                completionHandler(errorString: nil)
+                return
+            } else {
+                completionHandler(errorString: "There was an error posting your data to the server.")
+                return
+            }
             
         }
         
@@ -225,14 +236,18 @@ class Client : NSObject {
         let task = session.dataTaskWithRequest(request) { data, response, error in
         
             if error != nil || data == nil {
-                
                 completionHandler(data: nil, errorString: "There was an error posting your update to the server.")
                 return
             }
-            completionHandler(data: data!, errorString: nil)
-            return
+            if NSString(data: data!, encoding: NSUTF8StringEncoding) != "" {
+                completionHandler(data: data!, errorString: nil)
+                return
+            } else {
+                completionHandler(data: nil, errorString: "There was an error posting your update to the server.")
+                return
+            }
+            
         }
-        
         task.resume()
     }
     
@@ -258,12 +273,18 @@ class Client : NSObject {
             
             let parseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
             
-            let firstPart = parseString?.componentsSeparatedByString("\"objectId\":\"")[1]
+            if parseString != "" {
+                let firstPart = parseString?.componentsSeparatedByString("\"objectId\":\"")[1]
+                
+                let objectID = firstPart?.componentsSeparatedByString("\"")[0]
+                
+                completionHandler(objectID: objectID, errorString: nil)
+                return
+            } else {
+                completionHandler(objectID: nil, errorString: "There was an error posting your update to the server.")
+                return
+            }
             
-            let objectID = firstPart?.componentsSeparatedByString("\"")[0]
-            
-            completionHandler(objectID: objectID, errorString: nil)
-            return
         }
         
         task.resume()

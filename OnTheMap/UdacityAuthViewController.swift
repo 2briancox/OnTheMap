@@ -68,9 +68,8 @@ class UdacityAuthViewController: UIViewController, UITextFieldDelegate {
     
     
     func getAllStudents() {
-        Client.sharedInstance().getAllStudents(DataModel.sharedInstance().key) { (people, mediaURL, longitude, latitude, errorString) in
+        Client.sharedInstance().getAllStudents(DataModel.sharedInstance().key) { (mediaURL, longitude, latitude, errorString) in
             if errorString == nil {
-                DataModel.sharedInstance().people = people!
                 DataModel.sharedInstance().userMediaURL = mediaURL!
                 DataModel.sharedInstance().userLatitude = latitude!
                 DataModel.sharedInstance().userLongitude = longitude!
@@ -109,6 +108,7 @@ class UdacityAuthViewController: UIViewController, UITextFieldDelegate {
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
+    
     
     func animateBackgroundColor() {
         var finalColor: UIColor!
