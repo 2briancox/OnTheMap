@@ -91,7 +91,9 @@ class CreateURLViewController: UIViewController, UITextFieldDelegate {
         let person: StudentInformation = StudentInformation(personDict: ["firstName": DataModel.sharedInstance().userFirstName, "lastName": DataModel.sharedInstance().userLastName, "mediaURL": self.urlTextField.text! as String, "uniqueKey": DataModel.sharedInstance().key, "latitude": passedLatitude, "longitude": passedLongitude, "mapString":passedLocation])
         Client.sharedInstance().postStudentInfo(person) { (errorString) in
             if errorString == nil {
-                self.getAllStudents()
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.getAllStudents()
+                }
             } else {
                 self.showAlertWithText("Login Error", message: errorString!)
             }
@@ -102,8 +104,10 @@ class CreateURLViewController: UIViewController, UITextFieldDelegate {
     func queryStudentLocation() {
         Client.sharedInstance().queryStudentLocation(DataModel.sharedInstance().key) { (objectID, errorString) in
             if errorString == nil {
-                self.objectID = objectID!
-                self.updateStudentInfo()
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.objectID = objectID!
+                    self.updateStudentInfo()
+                }
             } else {
                 self.showAlertWithText("Login Error", message: errorString!)
             }
