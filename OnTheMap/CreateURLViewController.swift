@@ -75,11 +75,13 @@ class CreateURLViewController: UIViewController, UITextFieldDelegate {
     func getAllStudents() {
         Client.sharedInstance().getAllStudents(DataModel.sharedInstance().key) { (mediaURL, longitude, latitude, errorString) in
             if errorString == nil {
-                DataModel.sharedInstance().userMediaURL = mediaURL!
-                DataModel.sharedInstance().userLatitude = latitude!
-                DataModel.sharedInstance().userLongitude = longitude!
-                DataModel.sharedInstance().shouldReload = true
-                self.dismissViewControllerAnimated(true, completion: nil)
+                dispatch_async(dispatch_get_main_queue()) {
+                    DataModel.sharedInstance().userMediaURL = mediaURL!
+                    DataModel.sharedInstance().userLatitude = latitude!
+                    DataModel.sharedInstance().userLongitude = longitude!
+                    DataModel.sharedInstance().shouldReload = true
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                }
             } else {
                 self.showAlertWithText("Server Error", message: errorString!)
             }
@@ -102,7 +104,7 @@ class CreateURLViewController: UIViewController, UITextFieldDelegate {
     
     
     func queryStudentLocation() {
-        Client.sharedInstance().queryStudentLocation(DataModel.sharedInstance().key) { (objectID, errorString) in
+        Client.sharedInstance().queryStudentLocation() { (objectID, errorString) in
             if errorString == nil {
                 dispatch_async(dispatch_get_main_queue()) {
                     self.objectID = objectID!
@@ -119,7 +121,9 @@ class CreateURLViewController: UIViewController, UITextFieldDelegate {
         let person: StudentInformation = StudentInformation(personDict: ["firstName": DataModel.sharedInstance().userFirstName, "lastName": DataModel.sharedInstance().userLastName, "mediaURL": self.urlTextField.text! as String, "uniqueKey": DataModel.sharedInstance().key, "latitude": passedLatitude, "longitude": passedLongitude, "mapString":passedLocation])
         Client.sharedInstance().updateStudentInfo(objectID, person: person) { (data, errorString) in
             if errorString == nil {
-                self.getAllStudents()
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.getAllStudents()
+                }
             } else {
                 self.showAlertWithText("Update Error", message: errorString!)
             }

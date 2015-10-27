@@ -251,8 +251,8 @@ class Client : NSObject {
         task.resume()
     }
     
-    func queryStudentLocation(key: String, completionHandler: (objectID: String?, errorString: String?) -> Void) {
-        let urlString = "https://api.parse.com/1/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22\(key)%22%7D"
+    func queryStudentLocation(completionHandler: (objectID: String?, errorString: String?) -> Void) {
+        let urlString = "https://api.parse.com/1/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22\(DataModel.sharedInstance().key)%22%7D"
         
         let url = NSURL(string: urlString)
         
@@ -266,25 +266,26 @@ class Client : NSObject {
         
         let task = session.dataTaskWithRequest(request) { data, response, error in
             
-            if data == nil || error != nil {
-                completionHandler(objectID: nil, errorString: "There was an error posting your update to the server.")
-                return
-            }
-            
-            let parseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
-            
-            if parseString != "" {
-                let firstPart = parseString?.componentsSeparatedByString("\"objectId\":\"")[1]
+            dispatch_async(dispatch_get_main_queue()) {
+                if data == nil || error != nil {
+                    completionHandler(objectID: nil, errorString: "There was an error posting your update to the server.")
+                    return
+                }
                 
-                let objectID = firstPart?.componentsSeparatedByString("\"")[0]
+                let parseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
                 
-                completionHandler(objectID: objectID, errorString: nil)
-                return
-            } else {
-                completionHandler(objectID: nil, errorString: "There was an error posting your update to the server.")
-                return
+                if parseString != "" {
+                    let firstPart = parseString?.componentsSeparatedByString("\"objectId\":\"")[1]
+                    
+                    let objectID = firstPart?.componentsSeparatedByString("\"")[0]
+                    
+                    completionHandler(objectID: objectID, errorString: nil)
+                    return
+                } else {
+                    completionHandler(objectID: nil, errorString: "There was an error posting your update to the server.")
+                    return
+                }
             }
-            
         }
         
         task.resume()
